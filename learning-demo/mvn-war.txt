@@ -1,0 +1,25 @@
+ $ mkdir git-demo # create a directory for demo purpose
+ $ cd git demo       # change directory
+
+ $ git init                 # Initialize git directory for the folder
+ 
+
+# From maven in 5 minutes https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
+
+# Create a my-war project
+
+# Use the following line on the command line
+
+$ mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-war -DarchetypeArtifactId=maven-archetype-webapp -DarchetypeVersion=1.4 -DinteractiveMode=false      # Changed -DartifactId=my-war and  -DarchetypeArtifactId=maven-archetype-webapp
+
+$ build clean install # Installs the my war file
+
+# Startup tomcat
+
+# Go to the installed for of the tomcat
+
+$ cd /Users/varalakshmi/Desktop/tools/apache-tomcat-9.0.76/bin
+
+$ ./startup.sh
+
+# Go to manager app and enter credentials for the signin and deploy my war from /git-demo/my-war/target/my-war.war
