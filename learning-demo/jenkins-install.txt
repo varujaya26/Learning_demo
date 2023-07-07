@@ -1,0 +1,22 @@
+# Go to https://www.jenkins.io/download/
+
+# Click on Mac-os Jenkins-LTS file
+
+# Already installed home-brew
+
+$brew install jenkins-lts
+
+$brew services start jenkins-lts
+
+$cd /usr/local/Cellar/jenkins-lts/2.401.2
+
+$ vi homebrew.mxcl.jenkins-lts.plist
+# Change port to 9090
+
+# Restart services after changing the port
+$ brew services restart jenkins-lts
+
+$ Go to localhost:9090 and get the path to unlock Jenkins 
+$ sudo cat /Users/varalakshmi/.jenkins/secrets/initialAdminPassword   # Generates one time password
+
+$ Set user and password for Jenkins
