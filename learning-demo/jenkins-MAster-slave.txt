@@ -1,0 +1,93 @@
+Jenkins Master-Slave
+
+Jenkins Master and one linux slave and one windows slave
+Jenkins Master to Jenkins linux slave connection happens through SSH 
+Jenkins Master to Jenkins windows slave connection happens through JNLP 
+Master Jenkins has JDK, SCM, BUILD tool, Jenkins
+Slaves have JDK, SCM and BUILD tool
+
+Installing Jdk, scm, build tool, Jenkins on AWS LINUX 2 as Jenkins Master
+
+JDK installed along with Maven
+$ sudo yum install maven git -y
+
+$mvn —version
+
+$ sudo wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+$ sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+$ sudo yum install jenkins -y
+
+$sudo systemctl enable jenkins
+
+$ sudo systemctl start jenkins
+
+$ sudo systemctl status jenkins
+
+Go to http://$ip_address:8080/ 
+
+The Jenkins passwd is stored in /var/lib/jenkins/secrets/initialAdminPassword
+
+$ sudo cat /var/lib/jenkins/secrets/initialAdminPassword on the Jenkins Master
+
+Enter the password and start the plugins installation
+
+Create username and passwd and Installing jdk, scm build tool in Linux slave
+
+$ Launch an AMI LINUX 2 ec2 instance
+
+$ Install jdk , git maven on Linux slave
+
+$ sudo yum install git maven -y
+
+To create an username with key pair on slave instance
+
+$ sudo useradd -d /var/lib/jenkins jenkins
+$ ssh-keygen
+$ cat /home/ec2-user/.ssh/id_rsa.pub (prints the key)
+$ sudo mkdir /var/lib/jenkins/.ssh
+$ sudo vi /var/lib/jenkins/.ssh/authorized_keys (paste the above key inside the file authorized keys)
+$ sudo su -
+$ cd /var/lib/jenkins/
+$ ls -la
+$ sudo chown -R jenkins:jenkins .ssh/
+$ ls -la
+
+Create a node on Jenkins
+>> Go to Manage Jenkins
+>> Create a new node
+>> enter node name
+>> select Host as private_ip
+>>select user with ssh private key
+>> cat /home/ec2-user/.ssh/id_rsa
+>> copy the private key from slave machine to the Jenkins node private key
+>> add Jenkins as credentials
+>> add executers as 5
+>> save and apply
+
+Windows slave
+$ Download JDK 17 and install it
+$ Download Maven zip file and unzip it and move it to C: 
+$ open this pc and right click properties
+$ In Find a setting search for environment variables
+$ Go to system env variables and environment variables
+$ Open New under system variables create maven_home
+$ copy the path C:\apache-maven-3.9.3\bin
+$ paste only C:\apache-maven-3.9.3 click okay
+$ under path select path and edit
+$ Now paste the C:\apache-maven-3.9.3\bin and save/ apply
+$ Repeat the same for java_home for idk under C:\Program Files\Java\jdk-17\bin
+
+To add windows slave as a node
+>> Go to Jenkins >> Manage Jenkins >> security >> Agents >> select RANDOM and save
+>> Create node configure working directory as c:/Administartor/Desktop/test 
+>> save and launch, the build fails
+>> open cmd prompt and copy the curl commands to connect to agent.
+>> the windows slave will be connected only when cmd is open
+>> Download JDK, SCM, MAVEN in windows slave and then add each path to system environment variable 
+
+
+Create job using windows slave
+>> similar to linux slave except build shell is windows batch command shell
