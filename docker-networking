@@ -1,0 +1,62 @@
+What is docker networking 
+Container networking refers to the ability for containers to connect to and communicate with each other, or to non-Docker workloads.
+A container has no information about what kind of network it’s attached to, or whether their peers are also Docker workloads or not. A container only sees a network interface with an IP address, a gateway, a routing table, DNS services, and other networking details. That is, unless the container uses the none network driver
+
+Public ip provided by ISP
+Private ip to communicate within the Infra
+
+What is a router?
+A router is a device that connects two or more packet-switched networks or subnetworks. It serves two primary functions: managing traffic between these networks by forwarding data packets to their intended IP addresses, and allowing multiple devices to use the same Internet connection.
+
+Usage:  docker network COMMAND
+
+Manage networks
+
+Commands:
+  connect     Connect a container to a network
+  create      Create a network
+  disconnect  Disconnect a container from a network
+  inspect     Display detailed information on one or more networks
+  ls          List networks
+  prune       Remove all unused networks
+  rm          Remove one or more networks
+Ip is of two types ipv4 and ipv6
+
+Private ip
+Class a. 10.0.0.0 10.255.255.255 N.H.H.H
+Class b.  172.16.0.0. 172.31.255.255 N.N.H.H
+Class c.  192.168.0.0. 192.168.255.255    N.N.H.H
+
+Running an nginx
+$docker run -d --rm --name web -P nginx
+$docker ps
+$docker inspect $container-name 
+Unless specified docker assigns ip address 
+$docker network ls
+$docker network inspect bridge #gives the ip address of the bridge
+
+$docker network create demo ##creates a demo network default type is bridge
+$docker network inspect $network-name
+##gives the ip address of the network
+$docker network create sample ##creates a sample network with ip 172.17.0.1
+$docker network connect sample web
+                                        $network $container-id ## connects the container to the network, now ip address will be under 172.17.0.X
+
+$docker network prune ##deletes all custom network not attached to a container
+
+To customize
+
+$ docker network create --subnet 10.10.10.0/24 --gateway 10.10.10.1 net01 ## create network
+$ docker network ls
+$ docker network inspect net01
+
+$docker network create --subnet 10.0.0.0/16 --gateway 10.0.0.1 --ip-range=10.100.100.0/24 --driver=bridge --label=host4network net02
+$docker network inspect net02
+##run a container with the created network
+$docker run -d --rm --name web --network=net02 -P nginx
+
+To clean all
+$docker stop web02
+$docker rm web02
+$docker network rm net02 net04
+$docker network prune
