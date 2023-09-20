@@ -65,6 +65,7 @@ Create a node on Jenkins
 >> copy the private key from slave machine to the Jenkins node private key
 >> add Jenkins as credentials
 >> add executers as 5
+>> Use Manually Trusted verification stratergy
 >> save and apply
 
 Windows slave
